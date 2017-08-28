@@ -4,6 +4,7 @@ var secretPassword = 'abc123' //github secret安全密码
 var handler = createHandler({path: '/webhook', secret: secretPassword})
 var cmd = require('node-cmd')
 var port = 7777
+var bash = '/root/xxx/test.sh' //执行的脚本
 
 http.createServer(function (req, res) {
     handler(req, res, function (err) {
@@ -24,7 +25,7 @@ handler.on('push', function (event) {
     console.log('Received a push event for %s to %s',
         event.payload.repository.name,
         event.payload.ref)
-    cmd.get('/root/xxx/test.sh', function (err, data, stderr) {
+    cmd.get(bash, function (err, data, stderr) {
         console.log(data)
         if (stderr) {
             console.log("脚本错误:" + stderr)
